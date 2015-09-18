@@ -200,17 +200,13 @@ begin
 	unless parsed_resp['status'] == 'ok'
 		raise "Failed to send 'finished' to Bitrise"
 	end
-
-  parsed_resp["build_number"]
-  parsed_resp["download_url"]
-  system("envman add --key TEST_BUILD_NUMBER --value '#{parsed_resp["build_number"]}'")
-  system("envman add --key TEST_DOWNLOAD_LINK --value '#{parsed_resp["download_url"]}'")
-  system("envman print")
 	# - Success
 	puts_section_to_formatted_output("## Success")
 	#
 	puts_section_to_formatted_output("You can find the Downloadable App on Bitrise, on the [Build's page](#{options[:build_url]})")
   # parsed_resp: {"id"=>11973, "created_at"=>"2015-09-14T22:07:34.353Z", "title"=>"HealthKitDemo.ipa", "artifact_type"=>"ios-ipa", "is_processed"=>true, "artifact_meta"=>{"info_type_id"=>"ios-ipa", "file_size_bytes"=>11855688, "test_device_id_list"=>nil, "is_test_install_enabled"=>true, "install_type"=>"unlimited", "app_info"=>{"app_title"=>"HealthKitDemo", "bundle_id"=>"com.flabe.prosper", "version"=>"1.0", "build_number"=>"280", "min_OS_version"=>"8.1", "device_family_list"=>[1]}, "provisioning_info"=>{"creation_date"=>"2015-08-13T17:28:50+00:00", "expire_date"=>"2016-08-12T17:28:50+00:00", "team_name"=>"FLY LIKE A BEAGLE LLC", "profile_name"=>"Prosper Enterprise", "provisions_all_devices"=>true, "distribution_type"=>"distribution-enterprise"}}, "is_test_install_enabled"=>true, "is_public_page_enabled"=>true, "status"=>"ok", "download_url"=>"https://bitrise-prod-build-storage.s3.amazonaws.com/builds/67dccfb6d9f783f8/artifacts/11973/HealthKitDemo.ipa?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOC7N256G7J2W2TQ%2F20150914%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20150914T220736Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=ec49d1fbd2d7456e513b6647a19553f9988abe318dedba19960bae70b1bbe848", "public_install_page_url"=>"https://www.bitrise.io/artifact/11973/p/63a93efae51a5e6397aaa997233463f0", "pending_notify_users"=>[{"username"=>"rich86man", "email"=>"richardbkirk@gmail.com"}, {"username"=>"gizm0duck", "email"=>"shanewolf@gmail.com"}, {"username"=>"asherhunt", "email"=>"asherhunt@gmail.com"}], "notified_emails"=>nil, "pending_notify_emails"=>["RichardBKirk@gmail.com"]}
+
+  HTTParty.post("https://tatiana-chat-api-staging.herokuapp.com/api/v1/build_versions?download_url=#{parsed_resp['download_url']}&build_id=#{parsed_resp['artifact_meta']['app_info']['build_number']}")
 
 	if options[:is_enable_public_page] == 'yes'
 		public_install_page_url = parsed_resp['public_install_page_url']
