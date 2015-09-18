@@ -9,7 +9,7 @@ description: |
   public (long and random) URL which you can send to others
   not in your team.
 website: https://github.com/bitrise-io/steps-bitrise-ios-deploy
-source_code_url: https://github.com/bitrise-io/steps-bitrise-ios-deploy
+source_code_url:  https://github.com/Rich86man/steps-bitrise-ios-deploy
 support_url: https://github.com/bitrise-io/steps-bitrise-ios-deploy/issues
 host_os_tags:
   - "osx-10.10"
